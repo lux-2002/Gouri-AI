@@ -1,378 +1,272 @@
-# Gouri AI — Hybrid Voice Intelligence Assistant
+# Gouri-AI 🤖
 
-> **Evolution of a 3rd-year engineering project into a modular Python + AI engineering system.**
+### Modular Python AI Voice Assistant — Evolved from a College Project into a Production-Style AI Application
 
-Gouri AI is a voice-driven personal assistant rebuilt from an early college project into a modular, extensible application combining:
+Gouri-AI is a modular voice assistant built with **Python**, designed to demonstrate how a simple college project can be evolved into a more maintainable, testable, and extensible AI application.
 
-- Speech-to-text
-- Text-to-speech
-- Intent routing
-- Deterministic tool execution
-- Optional LLM fallback
-- Conversation context
-- Structured logging
-- Command latency tracking
-- Testable Python components
-- Environment-based configuration
-- Docker-ready packaging
+The project combines **speech recognition, intent classification, LLM-powered responses, contextual conversation handling, tool orchestration, logging, automated testing, and Docker support** within a clean layered architecture.
 
-The design intentionally uses a **hybrid architecture**: deterministic commands are handled locally and predictably, while ambiguous natural-language requests can be delegated to an LLM.
+> **From a college prototype → to a structured AI engineering project.**
 
 ---
 
-## Why this project was rebuilt
+## 🚀 Why This Project?
 
-The original 3rd-year implementation was a simple rule-based voice assistant using `speech_recognition`, `pyttsx3`, browser automation and hard-coded `if/elif` commands.
+Instead of treating the original voice assistant as a one-file college project, Gouri-AI was redesigned around software engineering principles:
 
-This version treats that project as an engineering evolution:
+* Modular architecture instead of tightly coupled code
+* Intent-driven request routing
+* LLM integration for intelligent responses
+* Context management for conversations
+* Extensible tool system for assistant actions
+* Automated unit testing
+* Structured logging and configuration
+* Environment-based secret management
+* Docker-ready application structure
 
-**College prototype → modular Python system → AI-assisted intent handling → observable, testable application**
-
-This makes the project useful as evidence of Python, AI integration, software design and production-oriented engineering fundamentals.
+This project demonstrates both **AI application development and software engineering fundamentals**.
 
 ---
 
-## Architecture
+## 🧠 What Can Gouri-AI Do?
+
+| Capability              | Implementation                  |
+| ----------------------- | ------------------------------- |
+| 🎙️ Speech Input        | Speech recognition pipeline     |
+| 🧠 Intent Understanding | Intent classification           |
+| 💬 AI Responses         | LLM-powered response generation |
+| 🗂️ Context             | Conversation context management |
+| 🌐 Browser Actions      | Browser tool integration        |
+| 🎵 Music                | Music-related assistant actions |
+| 😂 Entertainment        | Joke generation/tool            |
+| 💻 System Actions       | System-level assistant tools    |
+| 📝 Logging              | Structured application logging  |
+| 🧪 Testing              | Pytest-based test suite         |
+| 🐳 Deployment           | Docker support                  |
+
+---
+
+## 🏗️ Architecture
 
 ```text
-                         ┌──────────────────────┐
-                         │      Microphone      │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │   SpeechRecognizer   │
-                         │  speech → text       │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │     IntentRouter     │
-                         └──────────┬───────────┘
-                                    │
-                    ┌───────────────┴────────────────┐
-                    │                                │
-             Known command                    Unknown request
-                    │                                │
-                    ▼                                ▼
-             ┌─────────────┐                 ┌─────────────┐
-             │ Local Tools │                 │ LLM Fallback│
-             └──────┬──────┘                 └──────┬──────┘
-                    │                               │
-                    └──────────────┬────────────────┘
-                                   ▼
-                         ┌──────────────────────┐
-                         │ ConversationContext │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │  SpeechSynthesizer   │
-                         │  text → speech       │
-                         └──────────────────────┘
+                    ┌─────────────────────┐
+                    │     User Input      │
+                    │   Voice / Text      │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │    Speech Layer     │
+                    │ Recognition / TTS   │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      AI Layer       │
+                    │ Intent Classification│
+                    │ LLM Response Engine │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │   Core Assistant    │
+                    │ Context + Routing   │
+                    └──────────┬──────────┘
+                               │
+                    ┌──────────┴──────────┐
+                    ▼                     ▼
+             ┌─────────────┐       ┌─────────────┐
+             │    Tools    │       │   Context   │
+             │ Browser     │       │ Conversation│
+             │ Music       │       │ Management  │
+             │ System      │       └─────────────┘
+             │ Jokes       │
+             └─────────────┘
 ```
+
+The architecture separates **AI reasoning, application orchestration, speech processing, tools, configuration, and utilities**, making the system easier to extend without rewriting the entire application.
 
 ---
 
-## Project structure
+## 🛠️ Tech Stack
+
+**Language**
+
+`Python`
+
+**AI / Intelligence**
+
+`LLM Integration` · `Intent Classification` · `Context Management`
+
+**Voice**
+
+`Speech Recognition` · `Text-to-Speech`
+
+**Application Architecture**
+
+`Modular Python` · `Layered Architecture` · `Tool-Based Design`
+
+**Testing**
+
+`Pytest`
+
+**Engineering**
+
+`Logging` · `Environment Configuration` · `Exception Handling`
+
+**DevOps**
+
+`Docker` · `Requirements Management`
+
+---
+
+## 📈 Project Evolution
+
+### Original College Project
+
+The original implementation was a basic Python voice assistant built around a simple procedural flow:
 
 ```text
-gouri-ai/
-├── app/
-│   ├── ai/
-│   │   ├── __init__.py
-│   │   ├── intent_classifier.py
-│   │   ├── llm_client.py
-│   │   └── response_generator.py
-│   ├── config/
-│   │   ├── __init__.py
-│   │   └── settings.py
-│   ├── core/
-│   │   ├── __init__.py
-│   │   ├── assistant.py
-│   │   ├── context.py
-│   │   ├── exceptions.py
-│   │   └── router.py
-│   ├── speech/
-│   │   ├── __init__.py
-│   │   ├── recognizer.py
-│   │   └── synthesizer.py
-│   ├── tools/
-│   │   ├── __init__.py
-│   │   ├── base.py
-│   │   ├── browser.py
-│   │   ├── jokes.py
-│   │   ├── music.py
-│   │   └── system.py
-│   ├── utils/
-│   │   ├── __init__.py
-│   │   └── logger.py
-│   └── main.py
-├── tests/
-│   ├── test_context.py
-│   ├── test_intent_classifier.py
-│   ├── test_router.py
-│   └── test_tools.py
-├── docs/
-│   └── architecture.md
-├── .env.example
-├── .gitignore
-├── Dockerfile
-├── requirements.txt
-├── requirements-dev.txt
-└── README.md
+Voice Input
+     ↓
+Command Detection
+     ↓
+Hard-coded Actions
+     ↓
+Voice Output
 ```
 
----
+### Current Version
 
-## Core design decisions
-
-### 1. Hybrid routing
-
-Not every request needs an LLM.
-
-Examples:
+The project was redesigned into a more scalable architecture:
 
 ```text
-"What time is it?"
-        ↓
-Local system tool
-
-"Open YouTube"
-        ↓
-Browser tool
-
-"Tell me something interesting about AI agents."
-        ↓
-Optional LLM fallback
+User Input
+    ↓
+Speech / Input Layer
+    ↓
+Intent Classification
+    ↓
+Context + Routing
+    ↓
+LLM / Tool Selection
+    ↓
+Tool Execution
+    ↓
+Response Generation
+    ↓
+Voice Output
 ```
 
-This reduces unnecessary API calls and keeps deterministic actions predictable.
-
-### 2. Tool-based architecture
-
-Capabilities are isolated into tools rather than embedded inside the assistant loop.
-
-Adding a new capability therefore becomes a localized change instead of expanding a large `if/elif` block.
-
-### 3. Conversation context
-
-Recent user/assistant messages are stored in a bounded context window so an LLM can receive relevant conversation history without allowing memory to grow indefinitely.
-
-### 4. Observability
-
-Every routed command records:
-
-- input
-- intent
-- selected tool
-- execution status
-- latency
-- timestamp
-
-This creates a foundation for later analytics and performance benchmarking.
+The goal was not simply to add more features, but to demonstrate **how an early-stage project can be refactored using production-oriented engineering practices**.
 
 ---
 
-## Supported commands
+## 🔬 Engineering Highlights
 
-The current local tool set includes:
+### Modular Design
 
-| Command family | Examples |
-|---|---|
-| Time | "What time is it?" |
-| YouTube | "Open YouTube" |
-| Browser | "Open web" / "Open college website" |
-| Jokes | "Tell me a joke" |
-| Music | "Play a song" |
-| Exit | "Exit", "quit", "goodbye" |
+AI, speech, tools, configuration, and core orchestration are separated into independent modules.
 
-Unknown requests can use the optional LLM fallback.
+### Intent-Based Routing
+
+User requests are classified before being routed to the appropriate response or tool.
+
+### LLM Integration
+
+The assistant can use an LLM-backed response layer instead of relying entirely on hard-coded responses.
+
+### Extensible Tool System
+
+Assistant capabilities are represented as independent tools, allowing new functionality to be added without heavily modifying the core assistant.
+
+### Testable Architecture
+
+Core components are covered with automated tests to reduce regressions during development.
+
+### Production-Oriented Configuration
+
+Secrets and environment-specific configuration are separated from source code through environment variables.
+
+### Container Ready
+
+The project includes Docker support for reproducible application environments.
 
 ---
 
-## Installation
+## 🧪 Testing
 
-### Requirements
+The project includes automated tests covering core components such as:
 
-- Python 3.10+
-- Working microphone
-- Speakers/headphones
-- Internet connection for Google Speech Recognition
-- Windows is recommended for the local music launcher because the project supports `os.startfile`
+* Context management
+* Intent classification
+* Request routing
+* Tool behavior
 
-### Install
+Run the test suite with:
 
 ```bash
-git clone <your-repository-url>
-cd gouri-ai
-
-python -m venv .venv
+pytest
 ```
 
-Windows:
+---
+
+## 🐳 Run with Docker
+
+Build the image:
 
 ```bash
-.venv\Scripts\activate
+docker build -t gouri-ai .
 ```
 
-macOS/Linux:
+Run the container:
 
 ```bash
-source .venv/bin/activate
+docker run --env-file .env gouri-ai
 ```
 
-Then:
-
-```bash
-pip install -r requirements.txt
-```
+For detailed development/setup instructions, see the project documentation.
 
 ---
 
-## Configuration
+## 🎯 What This Project Demonstrates
 
-Copy:
+This project showcases practical experience across:
 
-```bash
-copy .env.example .env
-```
+**AI Engineering**
 
-or on macOS/Linux:
+* LLM application integration
+* Intent classification
+* Context-aware interactions
+* AI-assisted response generation
 
-```bash
-cp .env.example .env
-```
+**Software Engineering**
 
-The application works without an LLM.
+* Modular architecture
+* Separation of concerns
+* Exception handling
+* Testing
+* Logging
+* Configuration management
 
-To enable an OpenAI-compatible LLM endpoint, configure:
+**Developer Engineering**
 
-```env
-LLM_ENABLED=true
-LLM_BASE_URL=https://api.openai.com/v1
-LLM_API_KEY=your_api_key
-LLM_MODEL=your_model_name
-```
-
-The LLM client uses a standard HTTP interface so the provider can be changed without rewriting the assistant architecture.
-
----
-
-## Run
-
-```bash
-python -m app.main
-```
-
-The assistant will greet you and begin listening.
+* Git/GitHub
+* Docker
+* Dependency management
+* Project documentation
 
 ---
 
-## Testing
+## 🔗 Project
 
-Run:
-
-```bash
-python -m pytest
-```
-
-The tests intentionally focus on deterministic components so the routing and context layers can be validated without requiring a microphone or paid AI API.
+**GitHub:**
+https://github.com/lux-2002/Gouri-AI
 
 ---
 
-## Example interaction
+## 👩‍💻 About the Project
 
-```text
-Gouri: Hello. How can I help you?
+Gouri-AI started as a college project and was later revisited with a professional software-engineering mindset.
 
-You: What time is it?
-Gouri: The current time is 05:30 PM.
-
-You: Open YouTube.
-Gouri: Opening YouTube.
-
-You: Tell me a joke.
-Gouri: [joke]
-
-You: Explain artificial intelligence.
-Gouri: [LLM response when configured]
-```
-
----
-
-## Engineering extensions
-
-The architecture is intentionally designed for future additions such as:
-
-- Weather API integration
-- Calendar/task tools
-- Retrieval-augmented generation
-- Vector memory
-- Wake-word detection
-- FastAPI service layer
-- Web dashboard
-- Voice activity detection
-- Speech model replacement
-- Docker deployment
-- Prometheus/OpenTelemetry instrumentation
-- Persistent conversation storage
-- Tool permission policies
-
-These are intentionally not bundled as fake complexity. They can be added as measurable future iterations.
-
----
-
-## Project evolution
-
-### Original college version
-
-```text
-Microphone
-    ↓
-Google Speech Recognition
-    ↓
-if/elif keyword matching
-    ↓
-hard-coded response
-    ↓
-pyttsx3
-```
-
-### Re-engineered version
-
-```text
-Microphone
-    ↓
-Speech Recognition
-    ↓
-Intent Router
-    ↓
-Local Tool OR LLM
-    ↓
-Context + Observability
-    ↓
-Text-to-Speech
-```
-
-The project therefore demonstrates not only the original idea but also the ability to **revisit, refactor and productionize an early software prototype**.
-
----
-
-## Resume positioning
-
-Recommended project title:
-
-**Gouri AI — Hybrid Voice Intelligence Assistant**
-
-Suggested technology line:
-
-**Python, Speech Recognition, NLP, LLM APIs, OOP, REST APIs, Automation, Testing, Logging**
-
-Do not add performance percentages or accuracy numbers to a resume until they have been measured from the implemented version.
-
----
-
-## License
-
-Use this project as your own portfolio repository. Replace placeholder URLs and personalize the metadata before publishing.
+The focus of the upgrade was to demonstrate the ability to **understand an existing codebase, identify architectural limitations, refactor components, introduce engineering practices, and evolve a prototype into a structured AI application.**
